@@ -14,3 +14,7 @@ def login(data: LoginData):
     if db.check_user(data.username, data.password):
         return {"status": "success"}
     raise HTTPException(status_code=401, detail="Invalid credentials")
+
+@app.get("/ping")
+def ping():
+    return {"status": "ok"}
