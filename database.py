@@ -9,7 +9,7 @@ class Database:
         """Inicializa a conexão com o banco de dados e cria a tabela de usuários se não existir."""
         self.db_file = db_file
         try:
-            self.conn = sqlite3.connect(self.db_file)
+            self.conn = sqlite3.connect(self.db_file, check_same_thread=False)
             self.cursor = self.conn.cursor()
             self.create_user_table()
         except sqlite3.Error as e:
