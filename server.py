@@ -1,12 +1,18 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import sqlite3
+import hashlib
 
 app = FastAPI()
 
 class Database:
     def __init__(self, db_file="user_data.db"):
         self.db_file = db_file
+        
+    def _hash_password(self, password, salt):
+        password_bytes = password.encode('utf-8')
+        hashed_password = hashlib.pbkdf2_hmac('sha256', password_bytes, salt, 100000)
+        return hashed_password.hex()
     def check_user(self, username, password):
         try:
             with sqlite3.connect(self.db_file) as conn:
